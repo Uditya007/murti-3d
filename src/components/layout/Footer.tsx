@@ -1,0 +1,85 @@
+'use client';
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Share2, Globe, MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
+
+export default function Footer() {
+  return (
+    <footer className="relative border-t border-gold/10 bg-bg-2 pt-20 pb-8 overflow-hidden">
+      {/* Glow */}
+      <div className="absolute inset-0 bg-divine-radial opacity-20 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          {/* Brand */}
+          <div className="col-span-1 md:col-span-2">
+            <div className="mb-6">
+              <span className="font-display text-3xl shimmer block">DIVYAM</span>
+              <span className="text-xs tracking-[0.5em] text-muted uppercase">Sacred Murtis</span>
+            </div>
+            <p className="text-muted text-sm leading-relaxed max-w-sm mb-6">
+              Bringing the divine into your home through unparalleled craftsmanship. 
+              Each murti is a bridge between the human and the sacred, crafted by master artisans following millennia-old traditions.
+            </p>
+            <div className="flex gap-4">
+              {[Share2, Globe, MessageCircle].map((Icon, i) => (
+                <button
+                  key={i}
+                  className="w-9 h-9 border border-gold/20 rounded-full flex items-center justify-center text-muted hover:text-gold hover:border-gold/50 transition-all duration-300"
+                >
+                  <Icon size={15} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Links */}
+          <div>
+            <h4 className="font-display text-sm tracking-[0.3em] text-gold mb-5">COLLECTION</h4>
+            <ul className="space-y-3">
+              {['Bronze Murtis', 'Marble Murtis', 'Crystal Lingams', 'Brass Idols', 'Wood Carvings', 'Special Editions'].map(item => (
+                <li key={item}>
+                  <Link href="/products" className="text-muted text-sm hover:text-gold transition-colors duration-200">
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-display text-sm tracking-[0.3em] text-gold mb-5">CONNECT</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-muted text-sm">
+                <Mail size={14} className="text-gold mt-0.5 flex-shrink-0" />
+                <span>sacred@divyam.in</span>
+              </li>
+              <li className="flex items-start gap-3 text-muted text-sm">
+                <Phone size={14} className="text-gold mt-0.5 flex-shrink-0" />
+                <span>+91 98765 43210</span>
+              </li>
+              <li className="flex items-start gap-3 text-muted text-sm">
+                <MapPin size={14} className="text-gold mt-0.5 flex-shrink-0" />
+                <span>17 Artisan Row, Jaipur 302001, Rajasthan, India</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="divine-divider mb-8" />
+
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted">
+          <span>© 2024 Divyam Sacred Murtis. All rights reserved.</span>
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-gold transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-gold transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-gold transition-colors">Shipping Policy</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
