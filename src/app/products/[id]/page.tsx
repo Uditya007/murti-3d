@@ -134,7 +134,7 @@ export default function ProductDetailPage({ params }: Props) {
                           alt={product.name}
                           fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover object-top"
+                          className="object-contain p-4"
                           priority
                           onError={() => setImgError(true)}
                         />
@@ -217,7 +217,7 @@ export default function ProductDetailPage({ params }: Props) {
                       src={img}
                       alt={`${product.name} view ${i + 1}`}
                       fill
-                      className="object-cover object-top"
+                      className="object-contain"
                       sizes="80px"
                       onError={() => setImgError(true)}
                     />
@@ -347,16 +347,33 @@ export default function ProductDetailPage({ params }: Props) {
               </button>
             </div>
 
-            {/* Trust badges */}
-            <div className="grid grid-cols-3 gap-4 mb-10">
+            {/* Trust Features */}
+            <div className="space-y-4 mb-10">
               {[
-                { icon: Shield, text: 'Certified Authentic' },
-                { icon: Truck, text: 'Insured Shipping' },
-                { icon: Award, text: 'Consecrated' },
-              ].map(({ icon: Icon, text }) => (
-                <div key={text} className="flex flex-col items-center gap-2 p-3 glass rounded-xl text-center">
-                  <Icon size={14} className="text-gold" />
-                  <span className="text-[9px] tracking-wider text-muted leading-tight">{text}</span>
+                { 
+                  icon: RotateCcw, 
+                  title: 'Easy Returns', 
+                  desc: 'Return within 7 days of order delivery. See T&Cs' 
+                },
+                { 
+                  icon: Shield, 
+                  title: 'Fully Insured', 
+                  desc: 'All orders are fully insured to ensure peace of mind.' 
+                },
+                { 
+                  icon: Award, 
+                  title: '100% Handmade', 
+                  desc: 'All products are MADE IN INDIA.' 
+                },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-start gap-4 p-4 glass rounded-xl">
+                  <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
+                    <Icon size={16} className="text-gold" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-divine">{title}</h4>
+                    <p className="text-xs text-muted mt-1 leading-relaxed">{desc}</p>
+                  </div>
                 </div>
               ))}
             </div>

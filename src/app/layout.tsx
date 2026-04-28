@@ -7,12 +7,12 @@ import ParticleBackground from "@/components/ui/ParticleBackground";
 import CustomCursor from "@/components/ui/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "Divyam Sacred Murtis | Premium Hindu Idols & Statues",
+  title: "Jaipur Murti | Premium Hindu Idols & Statues",
   description:
     "Discover museum-grade Hindu murtis handcrafted by master artisans. Bronze, Marble, Crystal & Wood sacred sculptures — consecrated and certified authentic.",
   keywords: ["hindu murtis", "sacred statues", "bronze ganesha", "marble lakshmi", "religious idols", "temple art"],
   openGraph: {
-    title: "Divyam Sacred Murtis",
+    title: "Jaipur Murti",
     description: "Where the Divine meets your home — premium handcrafted Hindu murtis.",
     type: "website",
   },

@@ -14,7 +14,7 @@ function ProductsContent() {
   const [activeCategory, setActiveCategory] = useState(initCategory);
   const [sortBy, setSortBy] = useState('featured');
   const [showFilters, setShowFilters] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 50000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
 
   const filtered = useMemo(() => {
     let result = [...products];
@@ -110,8 +110,8 @@ function ProductsContent() {
                   <input
                     type="range"
                     min={0}
-                    max={50000}
-                    step={500}
+                    max={500000}
+                    step={1000}
                     value={priceRange[1]}
                     onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])}
                     className="flex-1 accent-[#D4AF37]"
@@ -143,7 +143,7 @@ function ProductsContent() {
               <div className="text-5xl mb-4">🔍</div>
               <p className="text-muted">No murtis found for this filter.</p>
               <button
-                onClick={() => { setActiveCategory('All'); setPriceRange([0, 50000]); }}
+                onClick={() => { setActiveCategory('All'); setPriceRange([0, 500000]); }}
                 className="mt-4 text-gold text-sm hover:underline"
               >
                 Clear filters

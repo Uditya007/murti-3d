@@ -32,7 +32,7 @@ export default function AboutPage() {
           </h1>
           <div className="divine-divider max-w-xs mx-auto mb-8" />
           <p className="text-muted text-lg leading-relaxed max-w-2xl mx-auto">
-            Divyam was born from a single conviction: that India's most sacred artistic traditions 
+            Jaipur Murti was born from a single conviction: that India's most sacred artistic traditions 
             deserve to reach every devotee who seeks them — with full authenticity, full reverence, 
             and zero compromise.
           </p>

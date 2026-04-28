@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Trash2, Plus, Minus, ArrowLeft, ArrowRight, ChevronRight, Check, Shield, Lock } from 'lucide-react';
+import { ShoppingCart, Trash2, Plus, Minus, ArrowLeft, ArrowRight, ChevronRight, Check, Shield, Lock, Loader2 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 type Step = 'cart' | 'shipping' | 'payment' | 'success';
@@ -18,6 +18,7 @@ export default function CartPage() {
     name: '', email: '', phone: '', address: '', city: '', state: '', pin: '',
     cardName: '', cardNumber: '', expiry: '', cvv: '',
   });
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const stepIndex = STEPS.indexOf(step);
 
@@ -25,9 +26,74 @@ export default function CartPage() {
   const gst = Math.round(totalPrice * 0.05);
   const total = totalPrice + shipping + gst;
 
-  const handleOrderPlace = () => {
-    clearCart();
-    setStep('success');
+  const handleOrderPlace = async () => {
+    setIsProcessing(true);
+
+    try {
+      // 1. Create order on server
+      const res = await fetch('/api/razorpay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: total,
+          receipt: `receipt_${Date.now()}`
+        }),
+      });
+
+      const order = await res.json();
+
+      if (!res.ok) {
+        throw new Error(order.error || 'Failed to initialize payment');
+      }
+
+      // 2. Load Razorpay script
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+
+      await new Promise((resolve) => {
+        script.onload = resolve;
+      });
+
+      // 3. Initialize Razorpay Checkout
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_placeholder', 
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Jaipur Murti',
+        description: 'Premium Hindu Idols & Statues',
+        order_id: order.id,
+        prefill: {
+          name: form.name || form.cardName,
+          email: form.email,
+          contact: form.phone,
+        },
+        theme: {
+          color: '#D4AF37', // Brand gold color
+        },
+        handler: function (response: any) {
+          // Payment successful
+          console.log('Payment success:', response);
+          clearCart();
+          setStep('success');
+          setIsProcessing(false);
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+          }
+        }
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+
+    } catch (error) {
+      console.error('Payment Error:', error);
+      alert('Could not initiate payment. Please check your configuration or try again.');
+      setIsProcessing(false);
+    }
   };
 
   const updateForm = (key: string, val: string) => setForm(f => ({ ...f, [key]: val }));
@@ -296,73 +362,10 @@ export default function CartPage() {
                     <Lock size={10} className="text-gold" /> 256-bit SSL encrypted · PCI DSS compliant
                   </p>
 
-                  {/* Payment methods */}
-                  <div className="flex gap-3 mb-8">
-                    {['Credit / Debit Card', 'UPI', 'Net Banking'].map((method, i) => (
-                      <button
-                        key={method}
-                        className={`flex-1 py-3 rounded-xl text-xs tracking-wider border transition-all duration-300 ${
-                          i === 0
-                            ? 'bg-gold/10 border-gold/40 text-gold'
-                            : 'border-gold/10 text-muted hover:border-gold/30 hover:text-divine'
-                        }`}
-                      >
-                        {method}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] tracking-widest text-muted uppercase mb-2 block">
-                        Name on Card
-                      </label>
-                      <input
-                        placeholder="Rahul Sharma"
-                        value={form.cardName}
-                        onChange={e => updateForm('cardName', e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] tracking-widest text-muted uppercase mb-2 block">
-                        Card Number
-                      </label>
-                      <input
-                        placeholder="4242 4242 4242 4242"
-                        value={form.cardNumber}
-                        onChange={e => updateForm('cardNumber', e.target.value)}
-                        className={inputClass}
-                        maxLength={19}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="text-[10px] tracking-widest text-muted uppercase mb-2 block">
-                          Expiry
-                        </label>
-                        <input
-                          placeholder="MM / YY"
-                          value={form.expiry}
-                          onChange={e => updateForm('expiry', e.target.value)}
-                          className={inputClass}
-                          maxLength={7}
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[10px] tracking-widest text-muted uppercase mb-2 block">
-                          CVV
-                        </label>
-                        <input
-                          placeholder="• • •"
-                          value={form.cvv}
-                          onChange={e => updateForm('cvv', e.target.value)}
-                          className={inputClass}
-                          maxLength={4}
-                          type="password"
-                        />
-                      </div>
-                    </div>
+                  <div className="bg-gold/5 border border-gold/20 rounded-xl p-6 text-center mb-8">
+                    <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" className="h-6 mx-auto mb-4 opacity-80 invert" />
+                    <p className="text-sm text-divine mb-2">You will be redirected to Razorpay to complete your payment securely.</p>
+                    <p className="text-xs text-muted">Supports UPI, all major Credit/Debit Cards, and Net Banking.</p>
                   </div>
 
                   <div className="flex gap-4 mt-8">
@@ -374,9 +377,18 @@ export default function CartPage() {
                     </button>
                     <button
                       onClick={handleOrderPlace}
-                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-gold text-black text-xs tracking-widest rounded-full font-medium hover:bg-gold-light transition-all shadow-gold"
+                      disabled={isProcessing}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-full text-xs tracking-widest font-medium transition-all ${
+                        isProcessing 
+                          ? 'bg-gold/50 text-black/50 cursor-not-allowed' 
+                          : 'bg-gold text-black hover:bg-gold-light shadow-gold'
+                      }`}
                     >
-                      <Shield size={13} /> PLACE ORDER · ₹{total.toLocaleString('en-IN')}
+                      {isProcessing ? (
+                        <><Loader2 size={13} className="animate-spin" /> INITIALIZING...</>
+                      ) : (
+                        <><Shield size={13} /> PAY SECURELY VIA RAZORPAY</>
+                      )}
                     </button>
                   </div>
                 </div>

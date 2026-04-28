@@ -13,7 +13,7 @@ import { products } from '@/lib/products';
 function FeaturedProducts() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const featured = products.slice(0, 3);
+  const featured = products.slice(0, 9);
 
   return (
     <section ref={ref} className="py-32 relative">
