@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="mb-6">
-              <span className="font-display text-3xl shimmer block">DIVYAM</span>
+              <span className="font-display text-3xl shimmer block">JAIPUR MURTI</span>
               <span className="text-xs tracking-[0.5em] text-muted uppercase">Sacred Murtis</span>
             </div>
             <p className="text-muted text-sm leading-relaxed max-w-sm mb-6">
@@ -54,7 +54,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-muted text-sm">
                 <Mail size={14} className="text-gold mt-0.5 flex-shrink-0" />
-                <span>sacred@divyam.in</span>
+                <span>hello@jaipurmurti.in</span>
               </li>
               <li className="flex items-start gap-3 text-muted text-sm">
                 <Phone size={14} className="text-gold mt-0.5 flex-shrink-0" />
@@ -72,7 +72,7 @@ export default function Footer() {
         <div className="divine-divider mb-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted">
-          <span>© 2024 Divyam Sacred Murtis. All rights reserved.</span>
+          <span>© 2024 Jaipur Murti. All rights reserved.</span>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-gold transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-gold transition-colors">Terms of Service</Link>

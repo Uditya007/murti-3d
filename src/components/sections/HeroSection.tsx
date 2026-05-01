@@ -96,8 +96,8 @@ export default function HeroSection() {
             variants={textVariants}
             className="text-muted text-lg leading-relaxed max-w-lg mb-10"
           >
-            Museum-grade Hindu murtis crafted by master artisans across India, 
-            using 2,000-year-old techniques and sacred materials. Each piece carries 
+            Museum-grade Hindu murtis crafted by master artisans across India,
+            using 2,000-year-old techniques and sacred materials. Each piece carries
             living devotion.
           </motion.p>
 
@@ -133,10 +133,10 @@ export default function HeroSection() {
             className="flex gap-10 mt-16 pt-10 border-t border-gold/10"
           >
             {[
-              { number: '50+', label: 'Master Artisans' },
+              { number: '50+',   label: 'Master Artisans' },
               { number: '2000+', label: 'Happy Devotees' },
-              { number: '100%', label: 'Authentic Materials' },
-              { number: '15+', label: 'States of Origin' },
+              { number: '100%',  label: 'Authentic Materials' },
+              { number: '15+',   label: 'States of Origin' },
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="font-display text-2xl text-gold shimmer">{stat.number}</div>

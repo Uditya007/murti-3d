@@ -43,7 +43,7 @@ export default function FeaturesSection() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <span className="text-xs tracking-[0.5em] text-gold uppercase">Why Choose Divyam</span>
+          <span className="text-xs tracking-[0.5em] text-gold uppercase">Why Choose Jaipur Murti</span>
           <h2 className="font-display text-5xl md:text-6xl text-divine mt-4 mb-4">
             Our Sacred Promise
           </h2>

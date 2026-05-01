@@ -80,7 +80,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                     alt={product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-top"
+                    className="object-contain p-4"
                     onError={() => setImgError(true)}
                   />
                 </motion.div>
@@ -125,19 +125,18 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             {/* ── Badges ── */}
             <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
               {product.badge && (
-                <span className={`text-[10px] tracking-widest px-3 py-1 rounded-full font-medium backdrop-blur-sm ${
-                  product.badge === 'Bestseller'
+                <span className={`text-[10px] tracking-widest px-3 py-1 rounded-full font-medium backdrop-blur-sm ${product.badge === 'Bestseller'
                     ? 'bg-gold text-black'
                     : product.badge === 'New Arrival'
-                    ? 'bg-emerald-500/80 text-white border border-emerald-400/40'
-                    : product.badge === 'Limited Edition'
-                    ? 'bg-purple-500/80 text-white border border-purple-400/40'
-                    : product.badge === 'Sold Out'
-                    ? 'bg-black/60 text-white/50 border border-white/20'
-                    : product.badge === 'Customer Favourite'
-                    ? 'bg-rose-500/80 text-white border border-rose-400/40'
-                    : 'bg-gold/80 text-black'
-                }`}>
+                      ? 'bg-emerald-500/80 text-white border border-emerald-400/40'
+                      : product.badge === 'Limited Edition'
+                        ? 'bg-purple-500/80 text-white border border-purple-400/40'
+                        : product.badge === 'Sold Out'
+                          ? 'bg-black/60 text-white/50 border border-white/20'
+                          : product.badge === 'Customer Favourite'
+                            ? 'bg-rose-500/80 text-white border border-rose-400/40'
+                            : 'bg-gold/80 text-black'
+                  }`}>
                   {product.badge}
                 </span>
               )}
@@ -214,13 +213,12 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               <button
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] tracking-widest font-medium transition-all duration-300 ${
-                  !product.inStock
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] tracking-widest font-medium transition-all duration-300 ${!product.inStock
                     ? 'bg-white/5 text-muted cursor-not-allowed'
                     : addedToCart
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-gold/10 text-gold border border-gold/30 hover:bg-gold hover:text-black'
-                }`}
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-gold/10 text-gold border border-gold/30 hover:bg-gold hover:text-black'
+                  }`}
               >
                 <ShoppingCart size={13} />
                 {!product.inStock ? 'SOLD OUT' : addedToCart ? 'ADDED ✓' : 'ADD'}

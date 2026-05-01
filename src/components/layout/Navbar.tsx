@@ -41,7 +41,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex flex-col items-start group">
             <span className="font-display text-lg tracking-[0.3em] text-gold leading-none shimmer">
-              DIVYAM
+              JAIPUR MURTI
             </span>
             <span className="text-[9px] tracking-[0.5em] text-muted uppercase mt-0.5">
               Sacred Murtis
