@@ -115,9 +115,8 @@ export default function ProductDetailPage({ params }: Props) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="relative rounded-3xl overflow-hidden divine-border cursor-zoom-in"
+                  className="relative rounded-3xl overflow-hidden divine-border cursor-zoom-in h-[400px] lg:h-[560px]"
                   style={{
-                    height: '560px',
                     background: 'radial-gradient(ellipse at center, #1a1008 0%, #050505 80%)',
                   }}
                   onClick={() => setZoomed(!zoomed)}
@@ -179,9 +178,8 @@ export default function ProductDetailPage({ params }: Props) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="relative rounded-3xl overflow-hidden divine-border"
+                  className="relative rounded-3xl overflow-hidden divine-border h-[400px] lg:h-[560px]"
                   style={{
-                    height: '560px',
                     background: 'radial-gradient(ellipse at center, #1a1008 0%, #050505 80%)',
                   }}
                 >

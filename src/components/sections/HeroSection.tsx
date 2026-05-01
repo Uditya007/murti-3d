@@ -79,11 +79,11 @@ export default function HeroSection() {
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="font-display text-7xl md:text-8xl xl:text-9xl leading-none mb-6"
+            className="font-display text-5xl sm:text-6xl md:text-8xl xl:text-9xl leading-none mb-6"
           >
             <span className="block text-divine">Where the</span>
             <span className="block shimmer">Divine</span>
-            <span className="block text-divine/80 text-5xl md:text-6xl xl:text-7xl font-serif italic mt-2">
+            <span className="block text-divine/80 text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-serif italic mt-2">
               meets your home
             </span>
           </motion.h1>
@@ -130,7 +130,7 @@ export default function HeroSection() {
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="flex gap-10 mt-16 pt-10 border-t border-gold/10"
+            className="grid grid-cols-2 md:flex gap-6 md:gap-10 mt-16 pt-10 border-t border-gold/10"
           >
             {[
               { number: '50+',   label: 'Master Artisans' },
