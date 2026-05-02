@@ -65,7 +65,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           }}
         >
           {/* ── Image Area ── */}
-          <div className="relative h-72 overflow-hidden">
+          <div className="relative h-48 md:h-72 overflow-hidden">
 
             {hasImage ? (
               <>
@@ -171,40 +171,40 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           </div>
 
           {/* ── Info ── */}
-          <div className="p-5">
-            <div className="mb-1.5 flex items-center gap-2">
-              <span className="text-[9px] tracking-[0.4em] text-gold/70 uppercase">{product.material}</span>
-              <span className="w-1 h-1 rounded-full bg-gold/30" />
-              <span className="text-[9px] tracking-[0.4em] text-muted uppercase">{product.origin.split(',')[0]}</span>
+          <div className="p-3 md:p-5">
+            <div className="mb-1.5 flex flex-wrap items-center gap-1 md:gap-2">
+              <span className="text-[8px] md:text-[9px] tracking-[0.2em] md:tracking-[0.4em] text-gold/70 uppercase">{product.material}</span>
+              <span className="hidden md:block w-1 h-1 rounded-full bg-gold/30" />
+              <span className="text-[8px] md:text-[9px] tracking-[0.2em] md:tracking-[0.4em] text-muted uppercase">{product.origin.split(',')[0]}</span>
             </div>
 
-            <h3 className="font-display text-xl text-divine mb-0.5 group-hover:text-gold transition-colors duration-300">
+            <h3 className="font-display text-sm md:text-xl text-divine mb-0.5 group-hover:text-gold transition-colors duration-300 line-clamp-1">
               {product.name}
             </h3>
-            <p className="text-xs text-muted mb-3 line-clamp-2 leading-relaxed">{product.description}</p>
+            <p className="text-[10px] md:text-xs text-muted mb-2 md:mb-3 line-clamp-2 leading-relaxed">{product.description}</p>
 
             {/* Rating */}
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-1 md:gap-2 mb-2 md:mb-4">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    size={11}
-                    className={i < Math.floor(product.rating) ? 'fill-gold text-gold' : 'text-muted/30'}
+                    size={9}
+                    className={`md:w-3 md:h-3 ${i < Math.floor(product.rating) ? 'fill-gold text-gold' : 'text-muted/30'}`}
                   />
                 ))}
               </div>
-              <span className="text-[11px] text-muted">({product.reviews})</span>
+              <span className="text-[9px] md:text-[11px] text-muted">({product.reviews})</span>
             </div>
 
             {/* Price + CTA */}
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="font-display text-xl text-gold">
+            <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-2 xl:gap-0 mt-2">
+              <div className="flex items-center gap-2 xl:block">
+                <span className="font-display text-sm md:text-xl text-gold">
                   ₹{product.price.toLocaleString('en-IN')}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-xs text-muted line-through ml-2">
+                  <span className="text-[9px] md:text-xs text-muted line-through xl:ml-2">
                     ₹{product.originalPrice.toLocaleString('en-IN')}
                   </span>
                 )}
@@ -213,15 +213,15 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
               <button
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] tracking-widest font-medium transition-all duration-300 ${!product.inStock
+                className={`w-full xl:w-auto flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-full text-[9px] md:text-[11px] tracking-widest font-medium transition-all duration-300 ${!product.inStock
                     ? 'bg-white/5 text-muted cursor-not-allowed'
                     : addedToCart
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       : 'bg-gold/10 text-gold border border-gold/30 hover:bg-gold hover:text-black'
                   }`}
               >
-                <ShoppingCart size={13} />
-                {!product.inStock ? 'SOLD OUT' : addedToCart ? 'ADDED ✓' : 'ADD'}
+                <ShoppingCart size={11} className="md:w-3 md:h-3" />
+                {!product.inStock ? 'SOLD OUT' : addedToCart ? 'ADDED' : 'ADD'}
               </button>
             </div>
           </div>

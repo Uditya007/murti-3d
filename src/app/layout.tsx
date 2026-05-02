@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import CustomCursor from "@/components/ui/CustomCursor";
+import DiscountPopup from "@/components/ui/DiscountPopup";
 
 export const metadata: Metadata = {
   title: "Jaipur Murti | Premium Hindu Idols & Statues",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <CartProvider>
           <CustomCursor />
           <ParticleBackground />
+          <DiscountPopup />
           <Navbar />
           <main className="relative z-10">{children}</main>
           <Footer />

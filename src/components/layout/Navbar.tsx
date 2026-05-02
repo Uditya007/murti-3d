@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Menu, X, Search, Heart } from 'lucide-react';
+import { ShoppingCart, Menu, X, Search, Heart, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 export default function Navbar() {
@@ -40,10 +40,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex flex-col items-start group">
-            <span className="font-display text-lg tracking-[0.3em] text-gold leading-none shimmer">
+            <span className="font-display text-base md:text-lg tracking-[0.2em] md:tracking-[0.3em] text-gold leading-none shimmer whitespace-nowrap">
               JAIPUR MURTI
             </span>
-            <span className="text-[9px] tracking-[0.5em] text-muted uppercase mt-0.5">
+            <span className="text-[8px] md:text-[9px] tracking-[0.4em] md:tracking-[0.5em] text-muted uppercase mt-0.5 whitespace-nowrap">
               Sacred Murtis
             </span>
           </Link>
@@ -64,15 +64,18 @@ export default function Navbar() {
           </ul>
 
           {/* Right icons */}
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-divine/60 hover:text-gold transition-colors duration-200">
-              <Search size={18} />
+          <div className="flex items-center gap-3 md:gap-4">
+            <button className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
+              <Search className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             </button>
-            <button className="p-2 text-divine/60 hover:text-gold transition-colors duration-200">
-              <Heart size={18} />
+            <button className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
+              <Heart className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             </button>
-            <Link href="/cart" className="relative p-2 text-divine/60 hover:text-gold transition-colors duration-200">
-              <ShoppingCart size={18} />
+            <Link href="/auth" className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
+              <User className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+            </Link>
+            <Link href="/cart" className="relative p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
+              <ShoppingCart className="w-4 h-4 md:w-[18px] md:h-[18px]" />
               <AnimatePresence>
                 {totalItems > 0 && (
                   <motion.span
@@ -80,7 +83,7 @@ export default function Navbar() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
-                    className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-gold text-black text-[9px] font-bold rounded-full flex items-center justify-center"
+                    className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 md:w-4 md:h-4 bg-gold text-black text-[8px] md:text-[9px] font-bold rounded-full flex items-center justify-center"
                   >
                     {totalItems}
                   </motion.span>
@@ -88,10 +91,10 @@ export default function Navbar() {
               </AnimatePresence>
             </Link>
             <button
-              className="md:hidden p-2 text-divine/60 hover:text-gold transition-colors"
+              className="md:hidden p-1 text-divine/60 hover:text-gold transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>

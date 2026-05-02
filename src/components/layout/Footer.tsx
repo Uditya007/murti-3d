@@ -15,8 +15,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="mb-6">
-              <span className="font-display text-3xl shimmer block">JAIPUR MURTI</span>
-              <span className="text-xs tracking-[0.5em] text-muted uppercase">Sacred Murtis</span>
+              <span className="font-display text-3xl shimmer block whitespace-nowrap">JAIPUR MURTI</span>
+              <span className="text-xs tracking-[0.5em] text-muted uppercase whitespace-nowrap">Sacred Murtis</span>
             </div>
             <p className="text-muted text-sm leading-relaxed max-w-sm mb-6">
               Bringing the divine into your home through unparalleled craftsmanship. 
