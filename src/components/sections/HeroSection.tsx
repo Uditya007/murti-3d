@@ -79,11 +79,11 @@ export default function HeroSection() {
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="font-display text-5xl sm:text-6xl md:text-8xl xl:text-9xl leading-none mb-6"
+            className="font-display text-4xl sm:text-6xl md:text-8xl xl:text-9xl leading-none mb-6"
           >
             <span className="block text-divine">Where the</span>
             <span className="block shimmer">Divine</span>
-            <span className="block text-divine/80 text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-serif italic mt-2">
+            <span className="block text-divine/80 text-3xl sm:text-5xl md:text-6xl xl:text-7xl font-serif italic mt-2">
               meets your home
             </span>
           </motion.h1>

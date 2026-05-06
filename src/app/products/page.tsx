@@ -1,169 +1,75 @@
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
-import { SlidersHorizontal, X } from 'lucide-react';
-import ProductCard from '@/components/ui/ProductCard';
+import { useState, useEffect, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { products, categories } from '@/lib/products';
+import ProductCard from '@/components/ui/ProductCard';
+import { useSearchParams } from 'next/navigation';
 
 function ProductsContent() {
   const searchParams = useSearchParams();
-  const initCategory = searchParams.get('category') || 'All';
+  const categoryParam = searchParams.get('category');
+  const [activeCategory, setActiveCategory] = useState(categoryParam || 'All');
 
-  const [activeCategory, setActiveCategory] = useState(initCategory);
-  const [sortBy, setSortBy] = useState('featured');
-  const [showFilters, setShowFilters] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
+  useEffect(() => {
+    if (categoryParam) setActiveCategory(categoryParam);
+  }, [categoryParam]);
 
-  const filtered = useMemo(() => {
-    let result = [...products];
-    if (activeCategory !== 'All') result = result.filter(p => p.category === activeCategory);
-    result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
-    if (sortBy === 'price-asc') result.sort((a, b) => a.price - b.price);
-    else if (sortBy === 'price-desc') result.sort((a, b) => b.price - a.price);
-    else if (sortBy === 'rating') result.sort((a, b) => b.rating - a.rating);
-    return result;
-  }, [activeCategory, sortBy, priceRange]);
+  const filteredProducts = activeCategory === 'All' 
+    ? products 
+    : products.filter(p => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen pt-32 pb-24">
-      {/* Page header */}
-      <div className="max-w-7xl mx-auto px-6 mb-16">
+    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-divine-radial opacity-10 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-center"
+          className="text-center mb-16"
         >
-          <span className="text-xs tracking-[0.5em] text-gold uppercase">Handcrafted by Masters</span>
-          <h1 className="font-display text-6xl md:text-7xl text-divine mt-4 mb-4">
-            Sacred Collection
+          <span className="text-xs tracking-[0.5em] text-gold uppercase">The Divine Collection</span>
+          <h1 className="font-display text-4xl md:text-5xl text-divine mt-4 mb-4">
+            Sacred Murtis
           </h1>
-          <p className="text-muted max-w-xl mx-auto text-sm leading-relaxed">
-            Every murti is a universe of devotion — hand-formed over weeks, consecrated with millennia of tradition.
-          </p>
           <div className="divine-divider max-w-sm mx-auto mt-8" />
         </motion.div>
-      </div>
 
-      {/* Controls */}
-      <div className="max-w-7xl mx-auto px-6 mb-10">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          {/* Category filters */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 rounded-full text-xs tracking-widest transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'bg-gold text-black font-medium'
-                    : 'border border-gold/20 text-muted hover:border-gold/50 hover:text-gold'
-                }`}
-              >
-                {cat.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
-          {/* Sort + Filter */}
-          <div className="flex items-center gap-3">
-            <select
-              value={sortBy}
-              onChange={e => setSortBy(e.target.value)}
-              className="bg-bg-3 border border-gold/20 text-muted text-xs tracking-wider rounded-full px-4 py-2 cursor-pointer"
-            >
-              <option value="featured">FEATURED</option>
-              <option value="price-asc">PRICE: LOW–HIGH</option>
-              <option value="price-desc">PRICE: HIGH–LOW</option>
-              <option value="rating">HIGHEST RATED</option>
-            </select>
-
+        {/* Categories */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-4 mb-16"
+        >
+          {categories.map((cat) => (
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-wider border transition-all duration-300 ${
-                showFilters
-                  ? 'bg-gold/10 border-gold/40 text-gold'
-                  : 'border-gold/20 text-muted hover:text-gold hover:border-gold/40'
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-6 py-2.5 rounded-full text-xs tracking-widest uppercase transition-all duration-300 ${
+                activeCategory === cat 
+                  ? 'bg-gold text-black font-medium shadow-gold' 
+                  : 'bg-black/40 text-muted border border-gold/20 hover:border-gold/50 hover:text-divine'
               }`}
             >
-              {showFilters ? <X size={12} /> : <SlidersHorizontal size={12} />}
-              FILTERS
+              {cat}
             </button>
-          </div>
-        </div>
+          ))}
+        </motion.div>
 
-        {/* Filter panel */}
-        <AnimatePresence>
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="glass rounded-2xl p-6 mt-4">
-                <h4 className="text-xs tracking-widest text-gold mb-4">PRICE RANGE</h4>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-muted">₹{priceRange[0].toLocaleString('en-IN')}</span>
-                  <input
-                    type="range"
-                    min={0}
-                    max={500000}
-                    step={1000}
-                    value={priceRange[1]}
-                    onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])}
-                    className="flex-1 accent-[#D4AF37]"
-                  />
-                  <span className="text-sm text-muted">₹{priceRange[1].toLocaleString('en-IN')}</span>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Result count */}
-      <div className="max-w-7xl mx-auto px-6 mb-8">
-        <span className="text-xs text-muted tracking-widest">
-          {filtered.length} {filtered.length === 1 ? 'PIECE' : 'PIECES'} FOUND
-        </span>
-      </div>
-
-      {/* Grid */}
-      <div className="max-w-7xl mx-auto px-6">
-        <AnimatePresence mode="wait">
-          {filtered.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-24"
-            >
-              <div className="text-5xl mb-4">🔍</div>
-              <p className="text-muted">No murtis found for this filter.</p>
-              <button
-                onClick={() => { setActiveCategory('All'); setPriceRange([0, 500000]); }}
-                className="mt-4 text-gold text-sm hover:underline"
-              >
-                Clear filters
-              </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={activeCategory + sortBy}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6"
-            >
-              {filtered.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Product Grid */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8"
+        >
+          {filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </motion.div>
       </div>
     </div>
   );
@@ -171,11 +77,7 @@ function ProductsContent() {
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense fallback={<div className="min-h-screen pt-32 text-center text-gold">Loading Collection...</div>}>
       <ProductsContent />
     </Suspense>
   );

@@ -3,22 +3,50 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Mail, Lock, User, PackageSearch, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, Mail, Lock, User, PackageSearch, ChevronRight, Loader2 } from 'lucide-react';
+import { createClient } from '@/lib/client';
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<'login' | 'register' | 'track'>('login');
   const [form, setForm] = useState({ email: '', password: '', name: '', orderId: '' });
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const router = useRouter();
+  const supabase = createClient();
 
   const handleUpdate = (key: string, val: string) => setForm(f => ({ ...f, [key]: val }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeTab === 'login') {
-      alert(`Logging in with ${form.email}`);
-    } else if (activeTab === 'register') {
-      alert(`Registering ${form.name}`);
-    } else {
-      alert(`Tracking order: ${form.orderId}`);
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      if (activeTab === 'login') {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: form.email,
+          password: form.password,
+        });
+        if (error) throw error;
+        router.push('/'); // Redirect on success
+      } else if (activeTab === 'register') {
+        const { error } = await supabase.auth.signUp({
+          email: form.email,
+          password: form.password,
+          options: { data: { full_name: form.name } },
+        });
+        if (error) throw error;
+        alert('Registration successful! You are now logged in.');
+        router.push('/');
+      } else {
+        // Mock tracking logic
+        alert(`Tracking order: ${form.orderId}`);
+      }
+    } catch (error: any) {
+      setErrorMsg(error.message || 'An error occurred.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -144,12 +172,23 @@ export default function AuthPage() {
                 </div>
               )}
 
+              {errorMsg && (
+                <p className="text-center text-xs text-red-400 mt-2">{errorMsg}</p>
+              )}
+
               <button 
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 bg-gold text-black font-medium py-3.5 rounded-full text-sm tracking-widest hover:bg-gold-light transition-all shadow-gold mt-6"
+                disabled={loading}
+                className={`w-full flex items-center justify-center gap-2 bg-gold text-black font-medium py-3.5 rounded-full text-sm tracking-widest hover:bg-gold-light transition-all shadow-gold mt-6 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                {activeTab === 'login' ? 'SIGN IN' : activeTab === 'register' ? 'CREATE ACCOUNT' : 'TRACK ORDER'}
-                <ChevronRight size={14} />
+                {loading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <>
+                    {activeTab === 'login' ? 'SIGN IN' : activeTab === 'register' ? 'CREATE ACCOUNT' : 'TRACK ORDER'}
+                    <ChevronRight size={14} />
+                  </>
+                )}
               </button>
             </motion.form>
           </AnimatePresence>

@@ -23,14 +23,32 @@ export default function Footer() {
               Each murti is a bridge between the human and the sacred, crafted by master artisans following millennia-old traditions.
             </p>
             <div className="flex gap-4">
-              {[Share2, Globe, MessageCircle].map((Icon, i) => (
-                <button
-                  key={i}
-                  className="w-9 h-9 border border-gold/20 rounded-full flex items-center justify-center text-muted hover:text-gold hover:border-gold/50 transition-all duration-300"
-                >
-                  <Icon size={15} />
-                </button>
-              ))}
+              <Link
+                href="https://www.instagram.com/jaipurmurthi?igsh=ZmFnNzVxdGJvMjhy&utm_source=qr"
+                target="_blank"
+                className="w-9 h-9 border border-gold/20 rounded-full flex items-center justify-center text-muted hover:text-gold hover:border-gold/50 transition-all duration-300"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+              </Link>
+              
+              <Link
+                href="/"
+                className="w-9 h-9 border border-gold/20 rounded-full flex items-center justify-center text-muted hover:text-gold hover:border-gold/50 transition-all duration-300"
+              >
+                <Globe size={15} />
+              </Link>
+              
+              <Link
+                href="https://wa.me/917665941949"
+                target="_blank"
+                className="w-9 h-9 border border-gold/20 rounded-full flex items-center justify-center text-muted hover:text-gold hover:border-gold/50 transition-all duration-300"
+              >
+                <MessageCircle size={15} />
+              </Link>
             </div>
           </div>
 
@@ -54,11 +72,11 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-muted text-sm">
                 <Mail size={14} className="text-gold mt-0.5 flex-shrink-0" />
-                <span>hello@jaipurmurti.in</span>
+                <Link href="mailto:udityatanwar@gmail.com" className="hover:text-gold transition-colors break-all">udityatanwar@gmail.com</Link>
               </li>
               <li className="flex items-start gap-3 text-muted text-sm">
                 <Phone size={14} className="text-gold mt-0.5 flex-shrink-0" />
-                <span>+91 98765 43210</span>
+                <Link href="https://wa.me/917665941949" className="hover:text-gold transition-colors">+91 76659 41949</Link>
               </li>
               <li className="flex items-start gap-3 text-muted text-sm">
                 <MapPin size={14} className="text-gold mt-0.5 flex-shrink-0" />
@@ -74,9 +92,9 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted">
           <span>© 2024 Jaipur Murti. All rights reserved.</span>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-gold transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-gold transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-gold transition-colors">Shipping Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-gold transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-gold transition-colors">Terms & Conditions</Link>
+            <Link href="/shipping-policy" className="hover:text-gold transition-colors">Shipping Policy</Link>
           </div>
         </div>
       </div>

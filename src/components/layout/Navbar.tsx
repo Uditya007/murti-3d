@@ -5,11 +5,26 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Menu, X, Search, Heart, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { createClient } from '@/lib/client';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const { totalItems } = useCart();
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
@@ -20,9 +35,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/products', label: 'Collection' },
-    { href: '/products?category=Bronze', label: 'Bronze' },
-    { href: '/products?category=Marble', label: 'Marble' },
-    { href: '/about', label: 'Our Craft' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   return (
@@ -49,19 +62,19 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <ul className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1 bg-black/40 border border-gold/20 rounded-full p-1 shadow-[0_0_15px_rgba(212,175,55,0.05)] backdrop-blur-md">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="relative text-sm tracking-widest text-divine/70 hover:text-gold transition-colors duration-300 font-light group"
-                >
-                  {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold-gradient group-hover:w-full transition-all duration-300" />
-                </Link>
-              </li>
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative px-6 py-2.5 text-[11px] font-medium tracking-[0.2em] uppercase text-divine/80 hover:text-black transition-colors duration-500 rounded-full group overflow-hidden"
+              >
+                <span className="relative z-10 transition-colors duration-300">{link.label}</span>
+                {/* Hover animated background - turns into a solid gold pill */}
+                <span className="absolute inset-0 bg-gold-gradient rounded-full translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+              </Link>
             ))}
-          </ul>
+          </div>
 
           {/* Right icons */}
           <div className="flex items-center gap-3 md:gap-4">
@@ -71,7 +84,7 @@ export default function Navbar() {
             <button className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
               <Heart className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             </button>
-            <Link href="/auth" className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
+            <Link href={user ? "/account" : "/auth"} className="p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">
               <User className="w-4 h-4 md:w-[18px] md:h-[18px]" />
             </Link>
             <Link href="/cart" className="relative p-1 md:p-2 text-divine/60 hover:text-gold transition-colors duration-200">

@@ -8,6 +8,7 @@ export default function DiscountPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Check if user has already seen or closed the popup in this session
@@ -27,15 +28,32 @@ export default function DiscountPopup() {
     sessionStorage.setItem('hasSeenDiscountPopup', 'true');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     
-    // Simulate API call
-    setSubmitted(true);
-    setTimeout(() => {
-      handleClose();
-    }, 3000);
+    setLoading(true);
+    
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      if (res.ok) {
+        setSubmitted(true);
+        setTimeout(() => {
+          handleClose();
+        }, 5000);
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      alert('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -111,9 +129,10 @@ export default function DiscountPopup() {
                       </div>
                       <button 
                         type="submit"
-                        className="w-full bg-gold text-black font-medium py-3.5 rounded-full text-xs md:text-sm tracking-widest hover:bg-gold-light transition-all shadow-gold whitespace-nowrap"
+                        disabled={loading}
+                        className={`w-full bg-gold text-black font-medium py-3.5 px-4 rounded-full text-[10px] sm:text-xs md:text-sm tracking-wider hover:bg-gold-light transition-all shadow-gold ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
-                        CLAIM MY DISCOUNT
+                        {loading ? 'PROCESSING...' : 'CLAIM MY DISCOUNT'}
                       </button>
                     </form>
                     <p className="text-[9px] text-muted tracking-wider mt-4 uppercase">
