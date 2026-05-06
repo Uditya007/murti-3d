@@ -12,7 +12,7 @@ import { useCart } from '@/context/CartContext';
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = products.find(p => p.id === params.id);
   const [activeImage, setActiveImage] = useState(0);
-  const { addItem } = useCart();
+  const { addToCart } = useCart();
 
   if (!product) {
     notFound();
@@ -120,7 +120,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
             <div className="text-3xl text-gold font-display mb-8 flex items-end gap-3">
               ₹{product.price.toLocaleString('en-IN')}
-              {product.originalPrice > product.price && (
+              {product.originalPrice && product.originalPrice > product.price && (
                 <span className="text-lg text-muted line-through mb-1">₹{product.originalPrice.toLocaleString('en-IN')}</span>
               )}
             </div>
@@ -146,7 +146,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button 
-                onClick={() => addItem(product, 1)}
+                onClick={() => addToCart(product)}
                 className="flex-1 flex items-center justify-center gap-3 bg-gold text-black font-medium py-4 rounded-full text-sm tracking-widest hover:bg-gold-light transition-all shadow-gold"
               >
                 <ShoppingCart size={16} />
